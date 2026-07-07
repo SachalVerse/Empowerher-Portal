@@ -3,91 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmpowerHer - Administration Console Terminal</title>
+    <title>EmpowerHer - Admin Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen font-sans">
 
-    <!-- ADMINISTRATIVE AUTHORIZATION LOCK GATEWAY -->
-    <div id="adminAuthLock" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 max-w-sm w-full shadow-2xl">
-            <h2 class="text-xl font-black mb-1 text-white">System Admin Console</h2>
-            <p class="text-xs text-slate-400 mb-6">Access restricted to verified state agency nodes.</p>
+    <!-- LOGIN OVERLAY -->
+    <div id="adminAuthLock" class="fixed inset-0 bg-[#0b0f19] z-50 flex items-center justify-center p-4">
+        <div class="bg-[#161c2a] p-8 rounded-3xl border border-slate-800/80 max-w-sm w-full shadow-2xl">
+            <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-lock text-purple-400 text-xl"></i></div>
+            <h2 class="text-xl font-black text-center text-white">Admin Console</h2>
+            <p class="text-xs text-slate-400 text-center mb-6">Restricted access — authorized personnel only.</p>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Username</label>
-                    <input type="text" id="adminUser" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm" placeholder="admin">
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Username</label>
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <input type="text" id="adminUser" class="w-full p-3 pl-9 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="admin">
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Password</label>
-                    <input type="password" id="adminPass" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm" placeholder="••••••••">
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1.5">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-key absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                        <input type="password" id="adminPass" class="w-full p-3 pl-9 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter password">
+                    </div>
                 </div>
-                <div id="loginErrorMsg" class="text-xs text-red-400 font-medium hidden">Incorrect administrative identity credentials.</div>
-                <button onclick="attemptAdminLogin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">Authenticate Session</button>
+                <div id="loginErrorMsg" class="text-xs text-red-400 font-medium hidden bg-red-500/10 border border-red-500/20 rounded-xl p-3 text-center">Invalid credentials. Please try again.</div>
+                <button onclick="attemptAdminLogin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-600/20">
+                    <i class="fas fa-arrow-right-to-bracket mr-2"></i>Sign In
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN ADMINISTRATIVE OPERATION ENGINE -->
-    <div id="adminDashboardView" class="hidden">
-        <nav class="bg-slate-900 border-b border-slate-800 py-4 px-8 flex justify-between items-center shadow-lg">
-            <span class="text-lg font-black tracking-tight text-purple-400">EmpowerHer Terminal 💻</span>
-            <button onclick="window.location.reload()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-2 rounded-xl">Secure Exit Console</button>
-        </nav>
+    <!-- DASHBOARD -->
+    <div id="adminDashboardView" class="hidden flex flex-col min-h-screen">
+        <!-- HEADER -->
+        <header class="border-b border-slate-800/60 bg-[#0b0f19]/80 backdrop-blur-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-9 h-9 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-sm shadow-lg">🏛️</div>
+                        <span class="text-lg font-black text-white tracking-tight">EmpowerHer</span>
+                        <span class="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full border border-purple-500/20 ml-2">Admin</span>
+                    </a>
+                    <nav class="hidden md:flex items-center space-x-6">
+                        <a href="index.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Home</a>
+                        <a href="select-service.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Services</a>
+                        <a href="tracking.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Track</a>
+                        <a href="admin.html" class="text-sm font-semibold text-purple-400 border-b-2 border-purple-400 pb-1">Admin</a>
+                    </nav>
+                    <button onclick="window.location.reload()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-2 rounded-xl border border-slate-700 transition">
+                        <i class="fas fa-sign-out-alt mr-1"></i>Exit
+                    </button>
+                </div>
+            </div>
+        </header>
 
-        <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
-            
-            <!-- ADVANCED ADMINISTRATIVE METRIC GRID -->
+        <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+            <!-- METRICS -->
             <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
-                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Live Requests</p><h3 id="metricTotalApps" class="text-2xl font-black text-white mt-1">0</h3></div>
-                    <span class="text-2xl bg-slate-800 p-3 rounded-xl border border-slate-700">📑</span>
+                <div class="bg-[#161c2a] border border-slate-800/80 p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Applications</p>
+                        <h3 id="metricTotalApps" class="text-3xl font-black text-white mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-xl border border-slate-700"><i class="fas fa-file-alt text-slate-400"></i></div>
                 </div>
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
-                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Approved Modules</p><h3 id="metricApprovedApps" class="text-2xl font-black text-emerald-400 mt-1">0</h3></div>
-                    <span class="text-2xl bg-emerald-950/40 p-3 rounded-xl border border-emerald-900/30">✓</span>
+                <div class="bg-[#161c2a] border border-slate-800/80 p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Approved</p>
+                        <h3 id="metricApprovedApps" class="text-3xl font-black text-emerald-400 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-xl border border-emerald-500/20"><i class="fas fa-check-circle text-emerald-400"></i></div>
                 </div>
-                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
-                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Review Audits</p><h3 id="metricPendingApps" class="text-2xl font-black text-amber-400 mt-1">0</h3></div>
-                    <span class="text-2xl bg-amber-950/40 p-3 rounded-xl border border-amber-900/30">⏱️</span>
+                <div class="bg-[#161c2a] border border-slate-800/80 p-5 rounded-2xl flex items-center justify-between">
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Review</p>
+                        <h3 id="metricPendingApps" class="text-3xl font-black text-amber-400 mt-1">0</h3>
+                    </div>
+                    <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-xl border border-amber-500/20"><i class="fas fa-hourglass-half text-amber-400"></i></div>
                 </div>
             </section>
 
-            <!-- DATA ENTRY CONTROL INDEX MATRIX TABLE -->
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
-                <div class="p-6 border-b border-slate-800"><h2 class="text-lg font-black text-white">Application Queue Logs</h2></div>
+            <!-- TABLE -->
+            <div class="bg-[#161c2a] border border-slate-800/80 rounded-2xl overflow-hidden">
+                <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                        <i class="fas fa-list text-purple-400"></i>
+                        <span>Application Queue</span>
+                    </h2>
+                    <button onclick="loadAllAdminSystemRecords()" class="text-xs text-purple-400 hover:text-purple-300 transition"><i class="fas fa-refresh mr-1"></i>Refresh</button>
+                </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-slate-950 text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                            <tr class="bg-slate-900/50 text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800/60">
                                 <th class="p-4">ID</th>
                                 <th class="p-4">Service</th>
                                 <th class="p-4">Applicant</th>
-                                <th class="p-4">CNIC Base</th>
-                                <th class="p-4">Metas & Documents</th>
-                                <th class="p-4 text-right">Update Workflow Action</th>
+                                <th class="p-4">CNIC</th>
+                                <th class="p-4">Details & Docs</th>
+                                <th class="p-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="adminTableContent" class="text-sm divide-y divide-slate-800/40 text-slate-300">
-                            <!-- Injected dynamically by admin scripts -->
-                        </tbody>
+                        <tbody id="adminTableContent" class="text-sm divide-y divide-slate-800/40 text-slate-300"></tbody>
                     </table>
                 </div>
             </div>
         </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-slate-800/60 bg-slate-900/30 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-xs">🏛️</div>
+                        <span class="text-sm font-black text-white">EmpowerHer Portal</span>
+                        <span class="text-[10px] text-slate-500">Administration Panel</span>
+                    </div>
+                    <p class="text-xs text-slate-500">&copy; 2026 EmpowerHer Portal</p>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>
         async function attemptAdminLogin() {
             const username = document.getElementById('adminUser').value;
             const password = document.getElementById('adminPass').value;
-
-            const res = await fetch('/api/admin/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-
+            const res = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) });
             if (res.ok) {
                 document.getElementById('adminAuthLock').classList.add('hidden');
                 document.getElementById('adminDashboardView').classList.remove('hidden');
@@ -102,29 +149,33 @@
             const data = await res.json();
             const tbody = document.getElementById('adminTableContent');
             tbody.innerHTML = '';
-            
-
-            // Map and calculate dynamic analytical counters
             document.getElementById('metricTotalApps').innerText = data.length;
             document.getElementById('metricApprovedApps').innerText = data.filter(a => a.status === 'Approved').length;
             document.getElementById('metricPendingApps').innerText = data.filter(a => a.status === 'Pending Review').length;
 
             data.forEach(app => {
+                let badge = "";
+                if (app.status === "Approved") badge = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30";
+                else if (app.status === "Rejected") badge = "bg-red-500/10 text-red-400 border-red-500/30";
+                else badge = "bg-amber-500/10 text-amber-400 border-amber-500/30";
+
                 tbody.innerHTML += `
-                    <tr class="hover:bg-slate-950/40 transition">
+                    <tr class="hover:bg-slate-900/40 transition">
                         <td class="p-4 font-mono font-bold text-purple-400">#${app.id}</td>
                         <td class="p-4 font-bold text-white">${app.service}</td>
                         <td class="p-4">${app.applicant}</td>
                         <td class="p-4 font-mono text-xs">${app.cnic}</td>
                         <td class="p-4 text-xs max-w-xs text-slate-400">
                             <div>${app.details}</div>
-                            <span class="text-[10px] text-purple-300 font-mono block mt-1">📁 Doc: ${app.docAttached}</span>
+                            <span class="text-[10px] text-purple-300 font-mono block mt-1"><i class="fas fa-paperclip mr-1"></i>${app.docAttached}</span>
                         </td>
                         <td class="p-4 text-right">
-                            <div class="flex items-center justify-end space-x-2">
-                                <input type="text" id="remarks-${app.id}" placeholder="${app.remarks || 'Add response remarks...'}" class="bg-slate-950 border border-slate-800 text-xs p-2 rounded-xl text-white placeholder-slate-600 w-44 focus:outline-none focus:border-purple-500">
-                                <button onclick="updateStatus(${app.id}, 'Approved')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Approve</button>
-                                <button onclick="updateStatus(${app.id}, 'Rejected')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Reject</button>
+                            <div class="flex flex-col sm:flex-row items-end sm:items-center justify-end space-y-2 sm:space-y-0 sm:space-x-2">
+                                <input type="text" id="remarks-${app.id}" placeholder="Remarks..." class="bg-slate-900 border border-slate-700 text-xs p-2 rounded-xl text-white placeholder-slate-600 w-full sm:w-36 focus:outline-none focus:border-purple-500">
+                                <div class="flex space-x-1.5">
+                                    <button onclick="updateStatus(${app.id}, 'Approved')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition"><i class="fas fa-check mr-1"></i>Approve</button>
+                                    <button onclick="updateStatus(${app.id}, 'Rejected')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition"><i class="fas fa-times mr-1"></i>Reject</button>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -134,14 +185,8 @@
 
         async function updateStatus(id, newStatus) {
             const remarks = document.getElementById(`remarks-${id}`).value;
-            const res = await fetch('/api/admin/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, status: newStatus, remarks })
-            });
-            if (res.ok) {
-                loadAllAdminSystemRecords();
-            }
+            const res = await fetch('/api/admin/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, status: newStatus, remarks }) });
+            if (res.ok) loadAllAdminSystemRecords();
         }
     </script>
 </body>

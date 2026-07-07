@@ -3,89 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmpowerHer - Live Tracking Workspace</title>
+    <title>EmpowerHer - Track Application</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans" id="trackBody">
-    <nav class="bg-slate-950 border-b border-slate-800 py-4 px-8 flex justify-between items-center shadow-md">
-        <a href="index.html" class="text-xl font-black text-purple-400">EmpowerHer Hub</a>
-        <div class="flex items-center space-x-3">
-            <button onclick="document.documentElement.classList.toggle('dark');" class="bg-slate-800 text-xs px-3 py-1.5 rounded-xl font-bold border border-slate-700">🌓 Theme</button>
-            <a href="select-service.html" class="text-sm font-semibold text-slate-400">← Apply Mode</a>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col font-sans">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 border-b border-slate-800/60 bg-[#0b0f19]/80 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-9 h-9 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-sm shadow-lg">🏛️</div>
+                    <span class="text-lg font-black text-white tracking-tight">EmpowerHer</span>
+                </a>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Home</a>
+                    <a href="select-service.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Services</a>
+                    <a href="tracking.html" class="text-sm font-semibold text-purple-400 border-b-2 border-purple-400 pb-1">Track</a>
+                    <a href="admin.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Admin</a>
+                </nav>
+                <div class="flex items-center space-x-3">
+                    <a href="select-service.html" class="hidden sm:inline-flex bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-purple-600/20">
+                        New Application
+                    </a>
+                    <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-slate-300 p-2">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-    </nav>
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-[#0b0f19] px-4 py-4 space-y-3">
+            <a href="index.html" class="block text-sm font-semibold text-slate-300">Home</a>
+            <a href="select-service.html" class="block text-sm font-semibold text-slate-300">Services</a>
+            <a href="tracking.html" class="block text-sm font-semibold text-purple-400">Track</a>
+            <a href="admin.html" class="block text-sm font-semibold text-slate-300">Admin</a>
+        </div>
+    </header>
 
-    <main class="max-w-4xl mx-auto mt-10 p-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <section class="bg-slate-800 p-6 rounded-2xl border border-slate-700 h-fit">
-            <h3 class="text-lg font-bold text-white mb-1">Secure Check-In</h3>
-            <p class="text-xs text-slate-400 mb-4">Input tracking identity parameters to see admin responses.</p>
-            <form onsubmit="executeTrackingAuthentication(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Full Identity Name</label>
-                    <input type="text" id="trackName" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm" placeholder="e.g. Maria">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">CNIC Number Reference</label>
-                    <input type="text" id="trackCnic" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono text-sm" placeholder="xxxxx-xxxxxxx-x">
-                </div>
-                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">Verify & Check Records</button>
-            </form>
-        </section>
+    <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+        <div class="text-center mb-10">
+            <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><i class="fas fa-search text-purple-400 text-xl"></i></div>
+            <h1 class="text-3xl sm:text-4xl font-black text-white">Track Your Application</h1>
+            <p class="text-slate-400 mt-2 text-sm">Enter your name and CNIC to check the status of your application.</p>
+        </div>
 
-        <section class="md:col-span-2 bg-slate-800 p-6 rounded-2xl border border-slate-700">
-            <h3 class="text-lg font-bold text-white mb-4">Your Dynamic Dossier History</h3>
-            <div id="trackingPlaceholder" class="text-slate-500 text-sm text-center py-12">Enter matching Name and CNIC sequences to fetch processed state files.</div>
-            <div id="resultsRegistryWrapper" class="space-y-4 hidden"></div>
-        </section>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <section class="bg-[#161c2a] border border-slate-800/80 rounded-2xl p-6 h-fit md:sticky md:top-24">
+                <h3 class="text-lg font-bold text-white mb-1">Search</h3>
+                <p class="text-xs text-slate-400 mb-5">Enter the details you used when applying.</p>
+                <form onsubmit="executeTrackingAuthentication(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Full Name</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                            <input type="text" id="trackName" required class="w-full p-3 pl-9 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="e.g. Maria">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">CNIC Number</label>
+                        <div class="relative">
+                            <i class="fas fa-id-card absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+                            <input type="text" id="trackCnic" required class="w-full p-3 pl-9 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="xxxxx-xxxxxxx-x">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-600/20 flex items-center justify-center space-x-2">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                    </button>
+                </form>
+            </section>
+
+            <section class="md:col-span-2 bg-[#161c2a] border border-slate-800/80 rounded-2xl p-6">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+                    <i class="fas fa-folder-open text-purple-400"></i>
+                    <span>Results</span>
+                </h3>
+                <div id="trackingPlaceholder" class="text-slate-500 text-sm text-center py-16 flex flex-col items-center">
+                    <i class="fas fa-inbox text-4xl text-slate-700 mb-3"></i>
+                    <p>Enter your name and CNIC above to search.</p>
+                </div>
+                <div id="resultsRegistryWrapper" class="space-y-4 hidden"></div>
+            </section>
+        </div>
     </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800/60 bg-slate-900/30 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-2">
+                    <div class="w-7 h-7 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-xs">🏛️</div>
+                    <span class="text-sm font-black text-white">EmpowerHer Portal</span>
+                </div>
+                <p class="text-xs text-slate-500">&copy; 2026 EmpowerHer Portal. All rights reserved.</p>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Home</a>
+                    <a href="select-service.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Services</a>
+                    <a href="admin.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Admin</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         async function executeTrackingAuthentication(e) {
             e.preventDefault();
             const applicantName = document.getElementById('trackName').value;
             const cnicNumber = document.getElementById('trackCnic').value;
-
-            const res = await fetch('/api/track', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ applicantName, cnicNumber })
-            });
+            const res = await fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ applicantName, cnicNumber }) });
             const databaseRecords = await res.json();
-            
             const placeholder = document.getElementById('trackingPlaceholder');
             const wrapper = document.getElementById('resultsRegistryWrapper');
-            
             placeholder.classList.add('hidden');
             wrapper.classList.remove('hidden');
             wrapper.innerHTML = '';
 
             if (databaseRecords.length === 0) {
-                wrapper.innerHTML = `<div class="p-6 text-center text-slate-400 text-sm border border-dashed border-slate-700 rounded-2xl">No processing entries found matching this data profile sequence.</div>`;
+                wrapper.innerHTML = `<div class="text-center py-12 border border-dashed border-slate-700 rounded-2xl"><i class="fas fa-search text-3xl text-slate-600 mb-3"></i><p class="text-slate-400 text-sm">No applications found matching those details.</p></div>`;
                 return;
             }
 
             databaseRecords.forEach(entry => {
-                let statusBadge = "";
-                if(entry.status === "Approved") statusBadge = "bg-emerald-950/40 text-emerald-400 border-emerald-900/40";
-                else if(entry.status === "Rejected") statusBadge = "bg-red-950/40 text-red-400 border-red-900/40";
-                else statusBadge = "bg-amber-950/40 text-amber-400 border-amber-900/40";
+                let statusBadge = "", statusIcon = "";
+                if (entry.status === "Approved") { statusBadge = "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"; statusIcon = "fa-check-circle"; }
+                else if (entry.status === "Rejected") { statusBadge = "bg-red-500/10 text-red-400 border-red-500/30"; statusIcon = "fa-times-circle"; }
+                else { statusBadge = "bg-amber-500/10 text-amber-400 border-amber-500/30"; statusIcon = "fa-clock"; }
 
                 wrapper.innerHTML += `
-                    <div class="p-5 border border-slate-700 rounded-2xl bg-slate-900/50 space-y-3">
+                    <div class="p-5 border border-slate-700/80 rounded-2xl bg-slate-900/30 space-y-3 hover:border-purple-500/30 transition">
                         <div class="flex justify-between items-start">
-                            <div>
-                                <span class="text-xs font-mono text-purple-400 font-bold">#${entry.id}</span>
+                            <div class="flex items-center space-x-3">
+                                <span class="text-sm font-mono font-bold text-purple-400">#${entry.id}</span>
                                 <h4 class="text-base font-bold text-white">${entry.service}</h4>
                             </div>
-                            <span class="px-2.5 py-1 text-xs border rounded-lg font-bold ${statusBadge}">${entry.status}</span>
+                            <span class="px-3 py-1 text-xs border rounded-lg font-bold flex items-center space-x-1 ${statusBadge}">
+                                <i class="fas ${statusIcon}"></i>
+                                <span>${entry.status}</span>
+                            </span>
                         </div>
-                        <div class="text-xs text-slate-300 bg-slate-950/40 p-3 rounded-xl border border-slate-800">
-                            <strong>Workflow Payload Parameters:</strong> ${entry.details} <br/>
-                            <span class="text-slate-500 mt-1 block">📄 Document Attached: ${entry.docAttached}</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div class="bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block mb-1"><i class="fas fa-info-circle mr-1"></i>Details</span>
+                                <span class="text-slate-200">${entry.details}</span>
+                            </div>
+                            <div class="bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+                                <span class="text-slate-500 block mb-1"><i class="fas fa-paperclip mr-1"></i>Document</span>
+                                <span class="text-slate-200">${entry.docAttached}</span>
+                            </div>
                         </div>
-                        <div class="text-xs text-purple-300 bg-purple-950/40 p-3 rounded-xl border border-purple-900/30">
-                            <strong>🎯 Admin Review Response:</strong> ${entry.remarks}
+                        <div class="text-xs bg-purple-950/30 p-3 rounded-xl border border-purple-900/30 flex items-start space-x-2">
+                            <i class="fas fa-comment-dots text-purple-400 mt-0.5"></i>
+                            <div><span class="text-purple-300 font-semibold">Review:</span> <span class="text-purple-200">${entry.remarks}</span></div>
                         </div>
                     </div>
                 `;

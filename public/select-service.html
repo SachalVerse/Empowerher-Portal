@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmpowerHer - Workspace</title>
+    <title>EmpowerHer - Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class' }</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="bg-slate-900 text-slate-100 dark:bg-slate-900 dark:text-slate-100 min-h-screen pb-24 transition-colors duration-200 font-sans" id="rootBody">
-    
-    <!-- STEALTH COVERT CAMOUFLAGE OVERLAY MATRIX (Hidden by default) -->
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col font-sans" id="rootBody">
+
+    <!-- STEALTH OVERLAY -->
     <div id="stealthCamouflageOverlay" class="fixed inset-0 bg-white text-black z-[99999] hidden overflow-y-auto p-8 font-serif">
         <div class="max-w-3xl mx-auto">
             <div class="border-b-4 border-black pb-4 mb-6">
@@ -22,160 +23,216 @@
         </div>
     </div>
 
-    <!-- MAIN INTERACTIVE PORTAL VIEW CONTAINER -->
-    <div id="portalCoreWrapper">
-        <!-- PANIC SAFETY BUTTON -->
-        <button onclick="activateStealthDisguise()" class="fixed bottom-6 right-6 z-50 bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs tracking-wide">
-            ⚠️ <span class="data-en">Quick Hide (Press ESC Twice)</span><span class="data-ur hidden">سکرین چھپائیں (دوبارہ ESC دبائیں)</span>
+    <div id="portalCoreWrapper" class="flex flex-col min-h-screen">
+
+        <!-- HEADER -->
+        <header class="sticky top-0 z-50 border-b border-slate-800/60 bg-[#0b0f19]/80 backdrop-blur-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <a href="index.html" class="flex items-center space-x-2">
+                        <div class="w-9 h-9 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-sm shadow-lg">🏛️</div>
+                        <span class="text-lg font-black text-white tracking-tight">EmpowerHer</span>
+                    </a>
+                    <nav class="hidden md:flex items-center space-x-6">
+                        <a href="index.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Home</a>
+                        <a href="select-service.html" class="text-sm font-semibold text-purple-400 border-b-2 border-purple-400 pb-1">Services</a>
+                        <a href="tracking.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Track</a>
+                        <a href="admin.html" class="text-sm font-semibold text-slate-300 hover:text-white transition">Admin</a>
+                    </nav>
+                    <div class="flex items-center space-x-3">
+                        <div id="connectivityStatusBar" class="hidden sm:flex text-[10px] font-bold px-2 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase tracking-widest items-center space-x-1">
+                            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
+                            <span>Online</span>
+                        </div>
+                        <button onclick="toggleSystemLanguage()" id="langBtn" class="text-xs font-bold border border-purple-500 text-purple-400 px-3 py-1.5 rounded-xl hover:bg-purple-950 transition uppercase tracking-wider">اردو (Urdu)</button>
+                        <button onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="md:hidden text-slate-300 p-2">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden border-t border-slate-800 bg-[#0b0f19] px-4 py-4 space-y-3">
+                <a href="index.html" class="block text-sm font-semibold text-slate-300">Home</a>
+                <a href="select-service.html" class="block text-sm font-semibold text-purple-400">Services</a>
+                <a href="tracking.html" class="block text-sm font-semibold text-slate-300">Track</a>
+                <a href="admin.html" class="block text-sm font-semibold text-slate-300">Admin</a>
+            </div>
+        </header>
+
+        <!-- PANIC BUTTON -->
+        <button onclick="activateStealthDisguise()" class="fixed bottom-6 right-6 z-50 bg-red-600 hover:bg-red-700 text-white px-5 py-3 rounded-full shadow-2xl font-bold text-xs tracking-wide flex items-center space-x-2">
+            <i class="fas fa-eye-slash"></i>
+            <span class="data-en hidden sm:inline">Quick Hide</span><span class="data-ur hidden sm:inline">سکرین چھپائیں</span>
         </button>
 
-        <!-- FLOATING INTELLIGENT AI CHATBOT WIDGET -->
+        <!-- CHATBOT -->
         <div class="fixed bottom-6 left-6 z-50">
-            <button onclick="toggleSupportChatWindow()" id="chatbotToggleBtn" class="bg-purple-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-105 transition border border-purple-500">🤖</button>
-            <div id="supportChatWindow" class="hidden bg-slate-800 w-80 h-96 rounded-2xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden">
-                <div class="bg-purple-700 text-white p-4 flex justify-between items-center">
+            <button onclick="toggleSupportChatWindow()" id="chatbotToggleBtn" class="bg-purple-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-xl hover:scale-105 transition border border-purple-500 shadow-purple-600/20">
+                <i class="fas fa-robot"></i>
+            </button>
+            <div id="supportChatWindow" class="hidden bg-[#161c2a] w-80 h-96 rounded-2xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden">
+                <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 flex justify-between items-center">
                     <div>
                         <h4 class="text-xs font-black uppercase tracking-wider">EmpowerBot AI</h4>
-                        <p class="text-[9px] text-purple-200"><span class="data-en">Powered by Gemini AI</span><span class="data-ur hidden">جیمنی آرٹیفیشل انٹیلیجنس</span></p>
+                        <p class="text-[9px] text-purple-200"><span class="data-en">Powered by Gemini</span><span class="data-ur hidden">جیمنی AI</span></p>
                     </div>
-                    <button onclick="toggleSupportChatWindow()" class="text-white text-sm">✕</button>
+                    <button onclick="toggleSupportChatWindow()" class="text-white text-sm hover:text-purple-200"><i class="fas fa-times"></i></button>
                 </div>
-                <div id="chatbotMessageLogs" class="flex-1 p-3 overflow-y-auto space-y-2 text-xs bg-slate-950/40 text-slate-300">
-                    <div class="bg-purple-900/40 text-purple-200 p-3 rounded-2xl rounded-tl-none border border-purple-800/40">
-                        <span class="data-en">Hello! Ask me absolutely anything about this application portal, requirements, or timeframes. I am smart now! ⚡</span>
-                        <span class="data-ur hidden">اسلام علیکم! آپ اس پورٹل، ضروریات یا ٹائم فریم کے بارے میں مجھ سے کچھ بھی پوچھ سکتے ہیں۔ میں آپ کی رہنمائی کے لیے تیار ہوں۔ ⚡</span>
-                    </div>
-                </div>
+                <div id="chatbotMessageLogs" class="flex-1 p-3 overflow-y-auto space-y-2 text-xs bg-slate-950/40 text-slate-300"></div>
                 <form onsubmit="handleAiChatSubmit(event)" class="p-2 bg-slate-900 border-t border-slate-800 flex space-x-2">
                     <input type="text" id="aiChatInputField" required class="flex-1 bg-slate-800 border border-slate-700 text-xs rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500" placeholder="Type a question...">
-                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-3 rounded-xl font-bold text-xs text-white">Send</button>
+                    <button type="submit" class="bg-purple-600 hover:bg-purple-700 px-3 rounded-xl font-bold text-xs text-white"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
         </div>
 
-        <!-- MAIN APP NAVIGATION BAR -->
-        <nav class="bg-slate-950 text-white border-b border-slate-800 py-4 px-6 md:px-12 flex justify-between items-center shadow-md">
-            <a href="index.html" class="text-xl font-black text-purple-400 tracking-tight">EmpowerHer</a>
-            <div class="flex items-center space-x-4">
-                <div id="connectivityStatusBar" class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase tracking-widest">● Online</div>
-                <button onclick="toggleSystemTheme()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-700">🌓 Theme Toggle</button>
-                <button onclick="toggleSystemLanguage()" id="langBtn" class="text-xs font-bold border border-purple-500 text-purple-400 px-3 py-1.5 rounded-xl hover:bg-purple-950 transition uppercase tracking-wider">اردو (Urdu)</button>
-            </div>
-        </nav>
+        <main class="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
 
-        <main class="max-w-4xl mx-auto mt-10 p-4">
-            <!-- STEP 1: SERVICE MENU SELECTOR GRID -->
-            <div id="serviceSelectionView" class="space-y-6">
-                <h2 class="text-2xl font-black text-center text-white">
-                    <span class="data-en">Select Needed Public Framework Service</span>
-                    <span class="data-ur hidden">مطلوبہ سرکاری سروس کا انتخاب کریں</span>
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button onclick="launchServiceForm('Passport Application')" class="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-left hover:border-purple-500 transition shadow-sm target-layout-dir">
-                        <span class="text-2xl">🛂</span>
-                        <h3 class="text-lg font-bold text-white mt-2"><span class="data-en">Apply for Digital Passport</span><span class="data-ur hidden">ڈیجیٹل پاسپورٹ کے لیے اپلائی کریں</span></h3>
-                        <p class="text-xs text-slate-400 mt-1"><span class="data-en">Submit new passports or processing renewal applications.</span><span class="data-ur hidden">نیا پاسپورٹ بنانے یا پرانے کی تجدید کے لیے درخواست جمع کروائیں۔</span></p>
+            <!-- SERVICE SELECTION -->
+            <div id="serviceSelectionView">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">
+                        <span class="data-en">Select a Service</span>
+                        <span class="data-ur hidden">ایک سروس منتخب کریں</span>
+                    </h2>
+                    <p class="text-slate-400 mt-2 text-sm">
+                        <span class="data-en">Choose the digital service you need to apply for.</span>
+                        <span class="data-ur hidden">اپنی مطلوبہ ڈیجیٹل سروس کا انتخاب کریں۔</span>
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <button onclick="launchServiceForm('Passport Application')" class="group bg-[#161c2a] hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 rounded-2xl p-6 text-left transition-all duration-300 target-layout-dir">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">🛂</div>
+                        <h3 class="text-lg font-bold text-white"><span class="data-en">Digital Passport</span><span class="data-ur hidden">ڈیجیٹل پاسپورٹ</span></h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed"><span class="data-en">Submit new or renewal applications.</span><span class="data-ur hidden">نئے پاسپورٹ یا تجدید کے لیے درخواست دیں۔</span></p>
                     </button>
-                    <button onclick="launchServiceForm('CNIC Registration/Renewal')" class="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-left hover:border-purple-500 transition shadow-sm target-layout-dir">
-                        <span class="text-2xl">🪪</span>
-                        <h3 class="text-lg font-bold text-white mt-2"><span class="data-en">National Identity Card (CNIC)</span><span class="data-ur hidden">شناختی کارڈ (CNIC) کی رجسٹریشن</span></h3>
-                        <p class="text-xs text-slate-400 mt-1"><span class="data-en">File lost cards, modifications, or expiration updates.</span><span class="data-ur hidden">گمشدہ کارڈ، تبدیلیوں یا میعاد ختم ہونے کی اپڈیٹس درج کریں۔</span></p>
+                    <button onclick="launchServiceForm('CNIC Registration/Renewal')" class="group bg-[#161c2a] hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 rounded-2xl p-6 text-left transition-all duration-300 target-layout-dir">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">🪪</div>
+                        <h3 class="text-lg font-bold text-white"><span class="data-en">CNIC Services</span><span class="data-ur hidden">شناختی کارڈ</span></h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed"><span class="data-en">Registration, renewal, or modifications.</span><span class="data-ur hidden">رجسٹریشن، تجدید یا تبدیلی۔</span></p>
                     </button>
-                    <button onclick="launchServiceForm('Women Business Micro-Loan')" class="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-left hover:border-purple-500 transition shadow-sm target-layout-dir">
-                        <span class="text-2xl">💰</span>
-                        <h3 class="text-lg font-bold text-white mt-2"><span class="data-en">Business Micro-Loan Financing</span><span class="data-ur hidden">کاروباری مائیکرو لون فنانسنگ</span></h3>
-                        <p class="text-xs text-slate-400 mt-1"><span class="data-en">Apply for financial support with clear zero-interest tracking models.</span><span class="data-ur hidden">بغیر سود کے آسان مائیکرو قرضوں کے لیے مالی مدد حاصل کریں۔</span></p>
+                    <button onclick="launchServiceForm('Women Business Micro-Loan')" class="group bg-[#161c2a] hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 rounded-2xl p-6 text-left transition-all duration-300 target-layout-dir">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">💰</div>
+                        <h3 class="text-lg font-bold text-white"><span class="data-en">Micro-Loan</span><span class="data-ur hidden">مائیکرو لون</span></h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed"><span class="data-en">Zero-interest business financing.</span><span class="data-ur hidden">بغیر سود کے کاروباری قرض۔</span></p>
                     </button>
-                    <button onclick="launchServiceForm('Utility Bill Payment')" class="p-6 bg-slate-800 border border-slate-700 rounded-2xl text-left hover:border-purple-500 transition shadow-sm target-layout-dir">
-                        <span class="text-2xl">⚡</span>
-                        <h3 class="text-lg font-bold text-white mt-2"><span class="data-en">Gas & Electricity Frameworks</span><span class="data-ur hidden">گیس اور بجلی کے یوٹیلیٹی بلز</span></h3>
-                        <p class="text-xs text-slate-400 mt-1"><span class="data-en">Process and log monthly consumer electricity files securely.</span><span class="data-ur hidden">اپنے ماہانہ یوٹیلیٹی بلز کی ادائیگی اور ریکارڈ محفوظ طریقے سے بھیجیں۔</span></p>
+                    <button onclick="launchServiceForm('Utility Bill Payment')" class="group bg-[#161c2a] hover:bg-slate-800 border border-slate-800/80 hover:border-purple-500/40 rounded-2xl p-6 text-left transition-all duration-300 target-layout-dir">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">⚡</div>
+                        <h3 class="text-lg font-bold text-white"><span class="data-en">Bill Payment</span><span class="data-ur hidden">بل کی ادائیگی</span></h3>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed"><span class="data-en">Pay gas & electricity bills.</span><span class="data-ur hidden">گیس اور بجلی کے بل ادا کریں۔</span></p>
                     </button>
                 </div>
             </div>
 
-            <!-- STEP 2: DYNAMIC CONSOLE WORKSPACE FORM -->
-            <div id="formSubmissionWorkspace" class="bg-slate-800 p-8 rounded-3xl shadow-xl border border-slate-700 max-w-xl mx-auto hidden target-layout-dir">
-                <h2 id="activeServiceTitle" class="text-xl font-extrabold text-white mb-2">Service Intake Form</h2>
-                <div id="timelineNotice" class="text-xs font-semibold text-amber-400 bg-amber-950/40 p-3 rounded-xl mb-6 border border-amber-900/40"></div>
+            <!-- FORM -->
+            <div id="formSubmissionWorkspace" class="bg-[#161c2a] border border-slate-800/80 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto hidden target-layout-dir">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 id="activeServiceTitle" class="text-xl font-extrabold text-white"></h2>
+                        <div id="timelineNotice" class="text-xs font-semibold text-amber-400 mt-1"></div>
+                    </div>
+                    <button onclick="resetToServiceSelection()" class="text-xs text-slate-400 hover:text-white transition"><i class="fas fa-arrow-left mr-1"></i> <span class="data-en">Back</span><span class="data-ur hidden">پیچھے</span></button>
+                </div>
 
-                <div class="flex items-center justify-between text-xs font-bold text-slate-500 mb-6 border-b border-slate-700 pb-3">
-                    <span id="step1Indicator" class="text-purple-400"><span class="data-en">1. Data Entry</span><span class="data-ur hidden">1۔ معلومات درج کریں</span></span>
-                    <span>→</span>
-                    <span id="step2Indicator"><span class="data-en">2. Document Upload</span><span class="data-ur hidden">2۔ دستاویزات اپلوڈ</span></span>
-                    <span>→</span>
-                    <span id="step3Indicator"><span class="data-en">3. Biometric Validation</span><span class="data-ur hidden">3۔ بائیومیٹرک تصدیق</span></span>
+                <div class="flex items-center justify-between text-xs font-bold text-slate-500 mb-6 bg-slate-900/50 rounded-xl p-3">
+                    <span id="step1Indicator" class="text-purple-400 flex items-center space-x-1"><span class="w-5 h-5 rounded-full bg-purple-400 text-white flex items-center justify-center text-[10px]">1</span><span class="data-en ml-1">Details</span><span class="data-ur hidden ml-1">تفصیلات</span></span>
+                    <span class="text-slate-600"><i class="fas fa-chevron-right text-[10px]"></i></span>
+                    <span id="step2Indicator" class="flex items-center space-x-1"><span class="w-5 h-5 rounded-full bg-slate-700 text-slate-400 flex items-center justify-center text-[10px]">2</span><span class="data-en ml-1">Documents</span><span class="data-ur hidden ml-1">دستاویزات</span></span>
+                    <span class="text-slate-600"><i class="fas fa-chevron-right text-[10px]"></i></span>
+                    <span id="step3Indicator" class="flex items-center space-x-1"><span class="w-5 h-5 rounded-full bg-slate-700 text-slate-400 flex items-center justify-center text-[10px]">3</span><span class="data-en ml-1">Verification</span><span class="data-ur hidden ml-1">تصدیق</span></span>
                 </div>
 
                 <form id="appForm" onsubmit="handleFormSubmission(event)">
                     <input type="hidden" id="serviceNameInput" />
-                    
+
                     <div id="stage1Fields" class="space-y-4">
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1"><span class="data-en">Full Legal Name</span><span class="data-ur hidden">پورا قانونی نام</span></label>
-                            <input type="text" id="applicantName" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">Full Name</span><span class="data-ur hidden">مکمل نام</span></label>
+                            <input type="text" id="applicantName" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1"><span class="data-en">National Identity Card (CNIC)</span><span class="data-ur hidden">قومی شناختی کارڈ نمبر</span></label>
-                            <input type="text" id="cnicNumber" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm font-mono text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="xxxxx-xxxxxxx-x">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">CNIC Number</span><span class="data-ur hidden">شناختی کارڈ نمبر</span></label>
+                            <input type="text" id="cnicNumber" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm font-mono text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="xxxxx-xxxxxxx-x">
                         </div>
                         <div id="dynamicFieldsContainer" class="space-y-4"></div>
-                        <button type="button" onclick="moveFormProgress(2)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition mt-4">
-                            <span class="data-en">Proceed to Document Upload →</span><span class="data-ur hidden">دستاویزات کی طرف بڑھیں ←</span>
+                        <button type="button" onclick="moveFormProgress(2)" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition mt-2 shadow-lg shadow-purple-600/20">
+                            <span class="data-en">Next →</span><span class="data-ur hidden">اگلا ←</span>
                         </button>
                     </div>
 
                     <div id="stage2Fields" class="space-y-4 hidden">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400"><span class="data-en">Attach Verified Documentation Scans</span><span class="data-ur hidden">مصدقہ دستاویزات کی فائلز منسلک کریں</span></label>
-                        <div class="border-2 border-dashed border-slate-600 hover:border-purple-500 rounded-2xl p-6 text-center cursor-pointer bg-slate-900 transition relative">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1"><span class="data-en">Upload Documents</span><span class="data-ur hidden">دستاویزات اپ لوڈ کریں</span></label>
+                        <div class="border-2 border-dashed border-slate-600 hover:border-purple-500 rounded-2xl p-8 text-center cursor-pointer bg-slate-900 transition relative">
                             <input type="file" id="fileAttachmentSelector" onchange="generateDocumentThumbnailPreview(this)" class="absolute inset-0 opacity-0 cursor-pointer" />
-                            <span class="text-2xl block mb-2">📁</span>
-                            <p class="text-xs text-slate-300 font-medium"><span class="data-en">Click or drag identity verification sheets or proofs here.</span><span class="data-ur hidden">شناختی دستاویز یا فائل اپلوڈ کرنے کے لیے یہاں کلک کریں۔</span></p>
+                            <i class="fas fa-cloud-upload-alt text-3xl text-slate-500 mb-2"></i>
+                            <p class="text-xs text-slate-400 font-medium"><span class="data-en">Click to upload or drag files here</span><span class="data-ur hidden">فائلیں اپ لوڈ کرنے کے لیے یہاں کلک کریں</span></p>
                         </div>
-                        <div id="documentSandboxPreviewZone" class="hidden p-3 bg-slate-950/60 rounded-xl border border-slate-700 flex items-center space-x-3">
-                            <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-lg">📄</div>
+                        <div id="documentSandboxPreviewZone" class="hidden p-3 bg-slate-900/60 rounded-xl border border-slate-700 flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center"><i class="fas fa-file-alt text-purple-400"></i></div>
                             <div class="flex-1 min-w-0"><p id="previewFileNameString" class="text-xs font-mono text-white truncate"></p><p class="text-[10px] text-emerald-400 font-bold">✓ Ready</p></div>
                         </div>
                         <div class="flex space-x-3 mt-4">
-                            <button type="button" onclick="moveFormProgress(1)" class="w-1/2 bg-slate-700 hover:bg-slate-600 font-bold py-3 rounded-xl transition"><span class="data-en">Back</span><span class="data-ur hidden">پیچھے</span></button>
-                            <button type="button" onclick="moveFormProgress(3)" class="w-1/2 bg-purple-600 hover:bg-purple-700 font-bold py-3 rounded-xl transition"><span class="data-en">Proceed to Biometrics →</span><span class="data-ur hidden">بائیو میٹرک کی طرف بڑھیں ←</span></button>
+                            <button type="button" onclick="moveFormProgress(1)" class="flex-1 bg-slate-700 hover:bg-slate-600 font-bold py-3 rounded-xl transition text-sm"><span class="data-en">Back</span><span class="data-ur hidden">پیچھے</span></button>
+                            <button type="button" onclick="moveFormProgress(3)" class="flex-1 bg-purple-600 hover:bg-purple-700 font-bold py-3 rounded-xl transition text-sm"><span class="data-en">Next →</span><span class="data-ur hidden">اگلا ←</span></button>
                         </div>
                     </div>
 
                     <div id="stage3Fields" class="space-y-4 hidden">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 text-center"><span class="data-en">Secure Biometric Facial Audit</span><span class="data-ur hidden">محفوظ بائیومیٹرک چہرے کی تصدیق</span></label>
-                        <div class="w-full bg-slate-950 aspect-video rounded-2xl overflow-hidden relative border border-slate-700 flex flex-col items-center justify-center">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 text-center"><span class="data-en">Facial Verification</span><span class="data-ur hidden">چہرے کی تصدیق</span></label>
+                        <div class="w-full bg-slate-900 aspect-video rounded-2xl overflow-hidden relative border border-slate-700 flex flex-col items-center justify-center">
                             <video id="webcamCaptureStreamTarget" autoplay playsinline class="w-full h-full object-cover hidden"></video>
-                            <div id="cameraAccessFallbackUi" class="text-center p-4">
-                                <span class="text-3xl block animate-bounce">📷</span>
-                                <button type="button" onclick="initializeWebcamHardwareCapture()" class="mt-2 text-xs bg-purple-600 hover:bg-purple-700 px-3 py-1.5 rounded-lg font-bold">
-                                    <span class="data-en">Activate Verification Camera</span><span class="data-ur hidden">تصدیقی کیمرہ فعال کریں</span>
+                            <div id="cameraAccessFallbackUi" class="text-center p-6">
+                                <i class="fas fa-camera text-4xl text-slate-500 mb-3"></i>
+                                <button type="button" onclick="initializeWebcamHardwareCapture()" class="text-sm bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-xl font-bold text-white">
+                                    <span class="data-en">Enable Camera</span><span class="data-ur hidden">کیمرہ آن کریں</span>
                                 </button>
                             </div>
                             <div id="biometricRadarOverlay" class="absolute inset-0 border-4 border-purple-500/40 rounded-2xl pointer-events-none hidden">
-                                <div class="w-full h-0.5 bg-purple-400 shadow-md shadow-purple-500/80 animate-bounce mt-10"></div>
+                                <div class="w-full h-0.5 bg-gradient-to-r from-transparent via-purple-400 to-transparent shadow-lg shadow-purple-500/80 animate-pulse mt-10"></div>
                             </div>
                         </div>
-                        <div id="biometricStateResponseLog" class="text-center text-xs text-slate-400 font-semibold py-1">Awaiting scanner data...</div>
+                        <div id="biometricStateResponseLog" class="text-center text-xs text-slate-400 font-semibold py-1"><span class="data-en">Waiting for camera...</span><span class="data-ur hidden">کیمرے کا انتظار...</span></div>
                         <div class="flex space-x-3 mt-4">
-                            <button type="button" onclick="moveFormProgress(2)" class="w-1/2 bg-slate-700 hover:bg-slate-600 font-bold py-3 rounded-xl transition"><span class="data-en">Back</span><span class="data-ur hidden">پیچھے</span></button>
-                            <button type="submit" id="finalFormSubmitBtn" disabled class="w-1/2 bg-purple-900 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed transition">
-                                <span class="data-en">Complete Submission</span><span class="data-ur hidden">درخواست مکمل جمع کریں</span>
+                            <button type="button" onclick="moveFormProgress(2)" class="flex-1 bg-slate-700 hover:bg-slate-600 font-bold py-3 rounded-xl transition text-sm"><span class="data-en">Back</span><span class="data-ur hidden">پیچھے</span></button>
+                            <button type="submit" id="finalFormSubmitBtn" disabled class="flex-1 bg-purple-900 text-slate-500 font-bold py-3 rounded-xl cursor-not-allowed transition text-sm">
+                                <span class="data-en">Submit</span><span class="data-ur hidden">جمع کریں</span>
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
 
-            <!-- TRANSACTIONAL CONFIRMATION DIALOG -->
-            <div id="successModule" class="bg-slate-800 p-8 rounded-3xl border border-slate-700 text-center max-w-md mx-auto hidden">
-                <div class="text-4xl mb-3">🎉</div>
-                <h3 class="text-xl font-extrabold text-white"><span class="data-en">Application Securely Lodged!</span><span class="data-ur hidden">درخواست کامیابی سے جمع ہو گئی!</span></h3>
-                <p class="text-sm text-slate-400 mt-2 mb-4">Your tracking ID string is <span id="allocatedTrackId" class="font-mono font-black text-purple-400"></span>.</p>
-                <p id="successDeliveryTimeline" class="text-xs p-3 bg-purple-950/60 text-purple-300 font-semibold rounded-xl border border-purple-900/30 mb-6"></p>
-                <button onclick="window.location.reload()" class="inline-block w-full bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md">Return to Main Workspace</button>
+            <!-- SUCCESS -->
+            <div id="successModule" class="bg-[#161c2a] border border-slate-800/80 rounded-3xl p-8 sm:p-10 text-center max-w-lg mx-auto hidden relative overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-check-circle text-3xl text-emerald-400"></i></div>
+                <h3 class="text-2xl font-extrabold text-white"><span class="data-en">Application Submitted!</span><span class="data-ur hidden">درخواست جمع ہو گئی!</span></h3>
+                <p class="text-sm text-slate-400 mt-2 mb-4"><span class="data-en">Your tracking ID:</span><span class="data-ur hidden">آپ کا ٹریکنگ نمبر:</span> <span id="allocatedTrackId" class="font-mono font-black text-purple-400 text-lg"></span></p>
+                <div id="successDeliveryTimeline" class="text-xs p-4 bg-purple-950/40 text-purple-300 font-semibold rounded-xl border border-purple-900/30 mb-6"></div>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <a href="tracking.html" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm"><span class="data-en">Track Status</span><span class="data-ur hidden">اسٹیٹس دیکھیں</span></a>
+                    <button onclick="window.location.reload()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 rounded-xl transition text-sm"><span class="data-en">New Application</span><span class="data-ur hidden">نیا فارم</span></button>
+                </div>
             </div>
         </main>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-slate-800/60 bg-slate-900/30 mt-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-7 h-7 bg-gradient-to-tr from-purple-500 to-indigo-600 rounded-lg flex items-center justify-center text-xs">🏛️</div>
+                        <span class="text-sm font-black text-white">EmpowerHer Portal</span>
+                    </div>
+                    <p class="text-xs text-slate-500">&copy; 2026 EmpowerHer Portal. All rights reserved.</p>
+                    <div class="flex items-center space-x-4">
+                        <a href="index.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Home</a>
+                        <a href="tracking.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Track</a>
+                        <a href="admin.html" class="text-xs text-slate-400 hover:text-purple-400 transition">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <script>
@@ -184,17 +241,12 @@
         let escapeKeyPressCounter = 0;
         let escapeKeyResetTimeout = null;
 
-        // FEATURE 2: ADVANCED STEALTH DISGUISE INTERCEPT MATRIX
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 escapeKeyPressCounter++;
                 clearTimeout(escapeKeyResetTimeout);
-                
-                if (escapeKeyPressCounter >= 2) {
-                    activateStealthDisguise();
-                } else {
-                    escapeKeyResetTimeout = setTimeout(() => { escapeKeyPressCounter = 0; }, 800);
-                }
+                if (escapeKeyPressCounter >= 2) { activateStealthDisguise(); }
+                else { escapeKeyResetTimeout = setTimeout(() => { escapeKeyPressCounter = 0; }, 800); }
             }
         });
 
@@ -202,38 +254,22 @@
             stopWebcamHardwareCapture();
             document.getElementById('portalCoreWrapper').classList.add('hidden');
             document.getElementById('stealthCamouflageOverlay').classList.remove('hidden');
-            window.history.pushState({}, '', '/index.html'); // Instantly fake browser URL location trace
+            window.history.pushState({}, '', '/index.html');
         }
 
-        // FEATURE 1: NETWORK OBSERVATION MATRIX & LOCALSTORAGE QUEUE SYNC ENGINE
         window.addEventListener('online', syncOfflineQueueToServer);
         window.addEventListener('offline', () => {
             const status = document.getElementById('connectivityStatusBar');
-            status.className = "text-[10px] font-bold px-2 py-1 rounded bg-amber-950 text-amber-400 border border-amber-900 uppercase tracking-widest";
-            status.innerText = "● Offline Mode Enabled";
+            if (status) { status.className = "hidden sm:flex text-[10px] font-bold px-2 py-1 rounded bg-amber-950 text-amber-400 border border-amber-900 uppercase tracking-widest items-center space-x-1"; status.innerHTML = '<span class="w-1.5 h-1.5 bg-amber-400 rounded-full"></span><span>Offline</span>'; }
         });
 
         async function syncOfflineQueueToServer() {
             const status = document.getElementById('connectivityStatusBar');
-            status.className = "text-[10px] font-bold px-2 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase tracking-widest";
-            status.innerText = "● Online";
-
+            if (status) { status.className = "hidden sm:flex text-[10px] font-bold px-2 py-1 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase tracking-widest items-center space-x-1"; status.innerHTML = '<span class="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span><span>Online</span>'; }
             const queue = JSON.parse(localStorage.getItem('empowerher_offline_queue') || '[]');
             if (queue.length === 0) return;
-
-            console.log(`System Online: Attempting data sync reconciliation loops for ${queue.length} items.`);
-            
             for (let i = 0; i < queue.length; i++) {
-                try {
-                    await fetch('/api/apply', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(queue[i])
-                    });
-                } catch (err) {
-                    console.error("Batch re-sync interrupted. Re-queuing remaining elements.", err);
-                    return;
-                }
+                try { await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(queue[i]) }); } catch (err) { return; }
             }
             localStorage.removeItem('empowerher_offline_queue');
         }
@@ -250,44 +286,27 @@
             const inputField = document.getElementById('aiChatInputField');
             const userText = inputField.value.trim();
             if (!userText) return;
-
             const logs = document.getElementById('chatbotMessageLogs');
             logs.innerHTML += `<div class="bg-slate-800 text-slate-200 border border-slate-700 p-2.5 rounded-2xl rounded-tr-none max-w-[85%] ml-auto text-right font-medium">${userText}</div>`;
             inputField.value = '';
             logs.scrollTop = logs.scrollHeight;
-
             if (!navigator.onLine) {
-                logs.innerHTML += `<div class="bg-amber-900/60 text-amber-300 p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium">Chat assistance requires an active internet connection.</div>`;
-                logs.scrollTop = logs.scrollHeight;
-                return;
+                logs.innerHTML += `<div class="bg-amber-900/60 text-amber-300 p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium">Chat requires internet connection.</div>`;
+                logs.scrollTop = logs.scrollHeight; return;
             }
-
             const loadingId = 'loading-' + Date.now();
-            logs.innerHTML += `<div id="${loadingId}" class="bg-purple-900/40 text-purple-300 p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium italic animate-pulse">Thinking / سوچ رہا ہے...</div>`;
+            logs.innerHTML += `<div id="${loadingId}" class="bg-purple-900/40 text-purple-300 p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium italic animate-pulse">Thinking...</div>`;
             logs.scrollTop = logs.scrollHeight;
-
             try {
-                const res = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: userText, language: currentLanguage })
-                });
+                const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userText, language: currentLanguage }) });
                 const data = await res.json();
                 document.getElementById(loadingId).remove();
                 logs.innerHTML += `<div class="bg-purple-600 text-white p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium">${data.reply}</div>`;
             } catch (err) {
                 document.getElementById(loadingId).remove();
-                logs.innerHTML += `<div class="bg-red-900 text-white p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium">Error linking to AI engine.</div>`;
+                logs.innerHTML += `<div class="bg-red-900 text-white p-2.5 rounded-2xl rounded-tl-none max-w-[85%] font-medium">Error connecting to AI.</div>`;
             }
             logs.scrollTop = logs.scrollHeight;
-        }
-
-        function toggleSystemTheme() {
-            const htmlNode = document.documentElement;
-            htmlNode.classList.toggle('dark');
-            const bgClass = htmlNode.classList.contains('dark') ? 'bg-slate-900' : 'bg-slate-50';
-            const textClass = htmlNode.classList.contains('dark') ? 'text-slate-100' : 'text-slate-800';
-            document.getElementById('rootBody').className = `${bgClass} ${textClass} min-h-screen pb-24 transition-colors duration-200 font-sans`;
         }
 
         function toggleSystemLanguage() {
@@ -296,33 +315,36 @@
             const urNodes = document.querySelectorAll('.data-ur');
             const textAlignmentTargets = document.querySelectorAll('.target-layout-dir');
             const btn = document.getElementById('langBtn');
-
             if(currentLanguage === 'ur') {
                 enNodes.forEach(n => n.classList.add('hidden'));
                 urNodes.forEach(n => n.classList.remove('hidden'));
-                textAlignmentTargets.forEach(n => {
-                    n.classList.remove('text-left');
-                    n.classList.add('text-right');
-                });
-                btn.innerText = "English Console";
+                textAlignmentTargets.forEach(n => { n.classList.remove('text-left'); n.classList.add('text-right'); });
+                btn.innerText = "English";
                 document.body.dir = "rtl";
             } else {
                 enNodes.forEach(n => n.classList.remove('hidden'));
                 urNodes.forEach(n => n.classList.add('hidden'));
-                textAlignmentTargets.forEach(n => {
-                    n.classList.remove('text-right');
-                    n.classList.add('text-left');
-                });
-                btn.innerText = "اردو (Urdu)";
+                textAlignmentTargets.forEach(n => { n.classList.remove('text-right'); n.classList.add('text-left'); });
+                btn.innerText = "اردو";
                 document.body.dir = "ltr";
             }
+            // Update step indicators direction
+            document.querySelectorAll('.flex.items-center.justify-between.text-xs.font-bold').forEach(el => el.dir = "");
+        }
+
+        function resetToServiceSelection() {
+            document.getElementById('formSubmissionWorkspace').classList.add('hidden');
+            document.getElementById('serviceSelectionView').classList.remove('hidden');
+            document.getElementById('successModule').classList.add('hidden');
+            moveFormProgress(1);
+            stopWebcamHardwareCapture();
         }
 
         const metrics = {
-            'Passport Application': { enDays: 14, urDays: 14, fields: `<label class="block text-xs font-bold text-slate-400 uppercase mb-1">Execution Vector</label><select id="extraField" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm"><option>Urgent (7 Days)</option><option>Standard (14 Days)</option></select>` },
-            'CNIC Registration/Renewal': { enDays: 7, urDays: 7, fields: `<label class="block text-xs font-bold text-slate-400 uppercase mb-1">Registry Mode</label><select id="extraField" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm"><option>New Registration</option><option>Expiration Renewal</option></select>` },
-            'Women Business Micro-Loan': { enDays: 10, urDays: 10, fields: `<label class="block text-xs font-bold text-slate-400 uppercase mb-1">Business Setup Plan</label><input type="text" id="extraField" required class="w-full p-3 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm" placeholder="e.g. Garments Manufacturing Startup">` },
-            'Utility Bill Payment': { enDays: 1, urDays: 1, fields: `<label class="block text-xs font-bold text-slate-400 uppercase mb-1">14-Digit Reference Account</label><input type="text" id="extraField" required class="w-full p-3 bg-slate-900 border border-slate-700 text-white rounded-xl text-sm">` }
+            'Passport Application': { enDays: 14, urDays: 14, fields: `<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">Processing Speed</span><span class="data-ur hidden">رفتار</span></label><select id="extraField" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"><option>Urgent (7 Days)</option><option>Standard (14 Days)</option></select>` },
+            'CNIC Registration/Renewal': { enDays: 7, urDays: 7, fields: `<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">Application Type</span><span class="data-ur hidden">درخواست کی قسم</span></label><select id="extraField" class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"><option>New Registration</option><option>Renewal</option></select>` },
+            'Women Business Micro-Loan': { enDays: 10, urDays: 10, fields: `<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">Business Plan</span><span class="data-ur hidden">کاروباری منصوبہ</span></label><input type="text" id="extraField" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g. Garments Manufacturing Startup">` },
+            'Utility Bill Payment': { enDays: 1, urDays: 1, fields: `<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5"><span class="data-en">Reference Number</span><span class="data-ur hidden">ریفری نمبر</span></label><input type="text" id="extraField" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="14-digit reference">` }
         };
 
         function launchServiceForm(service) {
@@ -330,34 +352,27 @@
             document.getElementById('formSubmissionWorkspace').classList.remove('hidden');
             document.getElementById('activeServiceTitle').innerText = service;
             document.getElementById('serviceNameInput').value = service;
-            
             const targetDays = currentLanguage === 'ur' ? metrics[service].urDays : metrics[service].enDays;
-            document.getElementById('timelineNotice').innerText = currentLanguage === 'ur' 
-                ? `⏱️ سروس نوٹس: براہ کرم اسٹیٹس ٹریک کرنے کے لیے ٹھیک ${targetDays} دن انتظار کریں۔` 
-                : `⏱️ Processing Notice: Please retain credentials to track status after ${targetDays} Days.`;
-                
+            document.getElementById('timelineNotice').innerText = currentLanguage === 'ur' ? `⏱️ براہ کرم ${targetDays} دن بعد اسٹیٹس چیک کریں` : `⏱️ Check status after approximately ${targetDays} days`;
             document.getElementById('dynamicFieldsContainer').innerHTML = metrics[service].fields;
         }
 
         function moveFormProgress(stage) {
-            document.getElementById('stage1Fields').classList.add('hidden');
-            document.getElementById('stage2Fields').classList.add('hidden');
-            document.getElementById('stage3Fields').classList.add('hidden');
-            if (stage === 1) document.getElementById('stage1Fields').classList.remove('hidden');
-            else if (stage === 2) {
-                document.getElementById('stage2Fields').classList.remove('hidden');
-                stopWebcamHardwareCapture();
-            }
-            else if (stage === 3) document.getElementById('stage3Fields').classList.remove('hidden');
+            [1,2,3].forEach(s => document.getElementById(`stage${s}Fields`).classList.add('hidden'));
+            document.getElementById(`stage${stage}Fields`).classList.remove('hidden');
+            [1,2,3].forEach(s => {
+                const el = document.getElementById(`step${s}Indicator`);
+                if (s === stage) { el.className = "text-purple-400 flex items-center space-x-1"; el.innerHTML = `<span class="w-5 h-5 rounded-full bg-purple-400 text-white flex items-center justify-center text-[10px]">${s}</span><span class="ml-1 font-bold">` + el.innerText.split(/\d\.\s/).pop() + '</span>'; }
+                else if (s < stage) { el.className = "text-emerald-400 flex items-center space-x-1"; el.innerHTML = `<span class="w-5 h-5 rounded-full bg-emerald-400 text-white flex items-center justify-center text-[10px]"><i class="fas fa-check text-[8px]"></i></span><span class="ml-1">` + el.innerText.split(/\d\.\s/).pop() + '</span>'; }
+                else { el.className = "text-slate-500 flex items-center space-x-1"; el.innerHTML = `<span class="w-5 h-5 rounded-full bg-slate-700 text-slate-400 flex items-center justify-center text-[10px]">${s}</span><span class="ml-1">` + el.innerText.split(/\d\.\s/).pop() + '</span>'; }
+            });
+            if (stage === 2) stopWebcamHardwareCapture();
         }
 
         function generateDocumentThumbnailPreview(input) {
             const zone = document.getElementById('documentSandboxPreviewZone');
             const labelString = document.getElementById('previewFileNameString');
-            if (input.files && input.files[0]) {
-                labelString.innerText = input.files[0].name;
-                zone.classList.remove('hidden');
-            }
+            if (input.files && input.files[0]) { labelString.innerText = input.files[0].name; zone.classList.remove('hidden'); }
         }
 
         async function initializeWebcamHardwareCapture() {
@@ -365,88 +380,69 @@
             const fallbackUi = document.getElementById('cameraAccessFallbackUi');
             const radar = document.getElementById('biometricRadarOverlay');
             const statusLog = document.getElementById('biometricStateResponseLog');
-
             try {
                 mediaStreamReference = await navigator.mediaDevices.getUserMedia({ video: true });
                 videoTarget.srcObject = mediaStreamReference;
                 videoTarget.classList.remove('hidden');
                 fallbackUi.classList.add('hidden');
                 radar.classList.remove('hidden');
-                statusLog.innerText = currentLanguage === 'ur' ? "چہرے کا معائنہ جاری ہے، براہ کرم سامنے دیکھیں..." : "Analyzing facial data metrics...";
-
+                statusLog.innerText = currentLanguage === 'ur' ? "چہرہ اسکین ہو رہا ہے..." : "Scanning...";
                 setTimeout(() => {
-                    statusLog.innerText = currentLanguage === 'ur' ? "✓ بائیو میٹرک تصدیق مکمل ہو چکی ہے۔" : "✓ Biometric Match Confirmed Securely.";
+                    statusLog.innerText = currentLanguage === 'ur' ? "✓ تصدیق مکمل" : "✓ Verified";
                     const submitBtn = document.getElementById('finalFormSubmitBtn');
                     submitBtn.disabled = false;
-                    submitBtn.className = "w-1/2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition";
+                    submitBtn.className = "flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-600/20";
                 }, 2500);
             } catch (err) {
-                statusLog.innerText = "✓ Verification verified via standard fallback parameters.";
+                statusLog.innerText = "✓ Verification complete (fallback)";
                 const submitBtn = document.getElementById('finalFormSubmitBtn');
                 submitBtn.disabled = false;
-                submitBtn.className = "w-1/2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition";
+                submitBtn.className = "flex-1 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm shadow-lg shadow-purple-600/20";
             }
         }
 
         function stopWebcamHardwareCapture() {
-            if (mediaStreamReference) {
-                mediaStreamReference.getTracks().forEach(track => track.stop());
-                mediaStreamReference = null;
-            }
+            if (mediaStreamReference) { mediaStreamReference.getTracks().forEach(track => track.stop()); mediaStreamReference = null; }
         }
 
         async function handleFormSubmission(e) {
             e.preventDefault();
             stopWebcamHardwareCapture();
-
             const serviceName = document.getElementById('serviceNameInput').value;
             const applicantName = document.getElementById('applicantName').value;
             const cnicNumber = document.getElementById('cnicNumber').value;
             const dynamicDetails = document.getElementById('extraField').value;
             const fileEl = document.getElementById('fileAttachmentSelector');
             const attachmentName = fileEl.files[0] ? fileEl.files[0].name : "Not uploaded";
-            
             const internalRandomId = Math.floor(100 + Math.random() * 900);
-
-            const recordPayload = { 
-                serviceName, 
-                applicantName, 
-                cnicNumber, 
-                dynamicDetails, 
-                attachmentName,
-                offlineId: internalRandomId 
-            };
-
-            // FEATURE 1 IMPLEMENTATION: HANDLE OFFLINE LOGGING INTERCEPT
+            const recordPayload = { serviceName, applicantName, cnicNumber, dynamicDetails, attachmentName, offlineId: internalRandomId };
             if (!navigator.onLine) {
                 const currentQueue = JSON.parse(localStorage.getItem('empowerher_offline_queue') || '[]');
                 currentQueue.push(recordPayload);
                 localStorage.setItem('empowerher_offline_queue', JSON.stringify(currentQueue));
-
                 document.getElementById('formSubmissionWorkspace').classList.add('hidden');
                 document.getElementById('successModule').classList.remove('hidden');
-                document.getElementById('allocatedTrackId').innerText = `#${internalRandomId} (Offline Temporary ID)`;
-                document.getElementById('successDeliveryTimeline').innerText = currentLanguage === 'ur'
-                    ? "انٹرنیٹ کنکشن منقطع ہے۔ آپ کا ڈیٹا محفوظ کر لیا گیا ہے اور آن لائن ہوتے ہی خود کار طریقے سے سنک ہو جائے گا۔"
-                    : "Application cached locally. The workspace data grid will automatically push records up once internet link repairs.";
+                document.getElementById('allocatedTrackId').innerText = `#${internalRandomId}`;
+                document.getElementById('successDeliveryTimeline').innerText = currentLanguage === 'ur' ? "آف لائن محفوظ کر لیا گیا۔ آن لائن ہوتے ہی خودکار سنک ہو جائے گا۔" : "Saved offline. Will auto-sync when online.";
                 return;
             }
-
-            // Normal Online Fetch Route Handling Flow
-            const res = await fetch('/api/apply', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(recordPayload)
-            });
+            const res = await fetch('/api/apply', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(recordPayload) });
             const data = await res.json();
-
             if (data.success) {
                 document.getElementById('formSubmissionWorkspace').classList.add('hidden');
                 document.getElementById('successModule').classList.remove('hidden');
                 document.getElementById('allocatedTrackId').innerText = `#${data.id}`;
-                document.getElementById('successDeliveryTimeline').innerText = "Application safely added to processing database loops.";
+                document.getElementById('successDeliveryTimeline').innerText = "Application submitted successfully.";
             }
         }
+
+        // Initialize chat with welcome message
+        document.addEventListener('DOMContentLoaded', () => {
+            const logs = document.getElementById('chatbotMessageLogs');
+            if (logs && logs.children.length === 0) {
+                logs.innerHTML = `<div class="bg-purple-900/40 text-purple-200 p-3 rounded-2xl rounded-tl-none border border-purple-800/40"><span class="data-en">Hello! Ask me anything about our services. ⚡</span><span class="data-ur hidden">اسلام علیکم! آپ خدمات کے بارے میں کچھ بھی پوچھ سکتے ہیں۔ ⚡</span></div>`;
+            }
+        });
     </script>
 </body>
 </html>
