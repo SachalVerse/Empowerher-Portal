@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmpowerHer - Live Tracking Workspace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans" id="trackBody">
+    <nav class="bg-slate-950 border-b border-slate-800 py-4 px-8 flex justify-between items-center shadow-md">
+        <a href="index.html" class="text-xl font-black text-purple-400">EmpowerHer Hub</a>
+        <div class="flex items-center space-x-3">
+            <button onclick="document.documentElement.classList.toggle('dark');" class="bg-slate-800 text-xs px-3 py-1.5 rounded-xl font-bold border border-slate-700">🌓 Theme</button>
+            <a href="select-service.html" class="text-sm font-semibold text-slate-400">← Apply Mode</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto mt-10 p-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section class="bg-slate-800 p-6 rounded-2xl border border-slate-700 h-fit">
+            <h3 class="text-lg font-bold text-white mb-1">Secure Check-In</h3>
+            <p class="text-xs text-slate-400 mb-4">Input tracking identity parameters to see admin responses.</p>
+            <form onsubmit="executeTrackingAuthentication(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Full Identity Name</label>
+                    <input type="text" id="trackName" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white text-sm" placeholder="e.g. Maria">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">CNIC Number Reference</label>
+                    <input type="text" id="trackCnic" required class="w-full p-3 bg-slate-900 border border-slate-700 rounded-xl text-white font-mono text-sm" placeholder="xxxxx-xxxxxxx-x">
+                </div>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">Verify & Check Records</button>
+            </form>
+        </section>
+
+        <section class="md:col-span-2 bg-slate-800 p-6 rounded-2xl border border-slate-700">
+            <h3 class="text-lg font-bold text-white mb-4">Your Dynamic Dossier History</h3>
+            <div id="trackingPlaceholder" class="text-slate-500 text-sm text-center py-12">Enter matching Name and CNIC sequences to fetch processed state files.</div>
+            <div id="resultsRegistryWrapper" class="space-y-4 hidden"></div>
+        </section>
+    </main>
+
+    <script>
+        async function executeTrackingAuthentication(e) {
+            e.preventDefault();
+            const applicantName = document.getElementById('trackName').value;
+            const cnicNumber = document.getElementById('trackCnic').value;
+
+            const res = await fetch('/api/track', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ applicantName, cnicNumber })
+            });
+            const databaseRecords = await res.json();
+            
+            const placeholder = document.getElementById('trackingPlaceholder');
+            const wrapper = document.getElementById('resultsRegistryWrapper');
+            
+            placeholder.classList.add('hidden');
+            wrapper.classList.remove('hidden');
+            wrapper.innerHTML = '';
+
+            if (databaseRecords.length === 0) {
+                wrapper.innerHTML = `<div class="p-6 text-center text-slate-400 text-sm border border-dashed border-slate-700 rounded-2xl">No processing entries found matching this data profile sequence.</div>`;
+                return;
+            }
+
+            databaseRecords.forEach(entry => {
+                let statusBadge = "";
+                if(entry.status === "Approved") statusBadge = "bg-emerald-950/40 text-emerald-400 border-emerald-900/40";
+                else if(entry.status === "Rejected") statusBadge = "bg-red-950/40 text-red-400 border-red-900/40";
+                else statusBadge = "bg-amber-950/40 text-amber-400 border-amber-900/40";
+
+                wrapper.innerHTML += `
+                    <div class="p-5 border border-slate-700 rounded-2xl bg-slate-900/50 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs font-mono text-purple-400 font-bold">#${entry.id}</span>
+                                <h4 class="text-base font-bold text-white">${entry.service}</h4>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs border rounded-lg font-bold ${statusBadge}">${entry.status}</span>
+                        </div>
+                        <div class="text-xs text-slate-300 bg-slate-950/40 p-3 rounded-xl border border-slate-800">
+                            <strong>Workflow Payload Parameters:</strong> ${entry.details} <br/>
+                            <span class="text-slate-500 mt-1 block">📄 Document Attached: ${entry.docAttached}</span>
+                        </div>
+                        <div class="text-xs text-purple-300 bg-purple-950/40 p-3 rounded-xl border border-purple-900/30">
+                            <strong>🎯 Admin Review Response:</strong> ${entry.remarks}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

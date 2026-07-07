@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmpowerHer Portal - Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Set Tailwind theme extension styles dynamically
+        tailwind.config = { darkMode: 'class' }
+    </script>
+</head>
+<body class="bg-[#0b0f19] dark:bg-[#0b0f19] text-slate-100 flex items-center justify-center min-h-screen p-4 font-sans transition-colors duration-200" id="bodyCtx">
+    <div class="text-center max-w-lg w-full p-8 md:p-12 bg-[#161c2a] rounded-3xl shadow-2xl border border-slate-800/80 relative">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl"></div>
+        
+        <div class="w-20 h-20 bg-gradient-to-tr from-purple-500 to-indigo-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg">🏛️</div>
+        <h1 class="text-3xl font-black text-white tracking-tight">EmpowerHer Portal</h1>
+        <p class="text-slate-400 mt-3 text-sm leading-relaxed">
+            Eliminating physical wait times. Securely file documentation registries, process digital wallets, and access business micro-financing parameters completely from home.
+        </p>
+        
+        <div class="mt-8 space-y-3">
+            <a href="select-service.html" class="flex items-center justify-center w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 px-6 rounded-2xl transition shadow-lg shadow-purple-600/20">
+                Apply for Digital Services
+            </a>
+            <a href="tracking.html" class="flex items-center justify-center w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3.5 px-6 rounded-2xl transition border border-slate-700">
+                📋 Track Application Status
+            </a>
+        </div>
+        <div class="mt-8 pt-4 border-t border-slate-800">
+            <a href="admin.html" class="text-xs text-purple-400 hover:underline font-semibold">🔒 Administration Core Management System</a>
+        </div>
+    </div>
+</body>
+</html>

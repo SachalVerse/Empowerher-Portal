@@ -1,0 +1,14 @@
+{
+  "name": "empowerher-portal",
+  "version": "2.0.0",
+  "description": "Premium All-Inclusive Deep-Theme Electronic Public Services System for Women",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node tests/api.test.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5"
+  }
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmpowerHer - Administration Console Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans">
+
+    <!-- ADMINISTRATIVE AUTHORIZATION LOCK GATEWAY -->
+    <div id="adminAuthLock" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 p-8 rounded-3xl border border-slate-800 max-w-sm w-full shadow-2xl">
+            <h2 class="text-xl font-black mb-1 text-white">System Admin Console</h2>
+            <p class="text-xs text-slate-400 mb-6">Access restricted to verified state agency nodes.</p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Username</label>
+                    <input type="text" id="adminUser" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm" placeholder="admin">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Password</label>
+                    <input type="password" id="adminPass" class="w-full p-3 bg-slate-800 border border-slate-700 rounded-xl text-white text-sm" placeholder="••••••••">
+                </div>
+                <div id="loginErrorMsg" class="text-xs text-red-400 font-medium hidden">Incorrect administrative identity credentials.</div>
+                <button onclick="attemptAdminLogin()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl transition text-sm">Authenticate Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN ADMINISTRATIVE OPERATION ENGINE -->
+    <div id="adminDashboardView" class="hidden">
+        <nav class="bg-slate-900 border-b border-slate-800 py-4 px-8 flex justify-between items-center shadow-lg">
+            <span class="text-lg font-black tracking-tight text-purple-400">EmpowerHer Terminal 💻</span>
+            <button onclick="window.location.reload()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-2 rounded-xl">Secure Exit Console</button>
+        </nav>
+
+        <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-8">
+            
+            <!-- ADVANCED ADMINISTRATIVE METRIC GRID -->
+            <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Live Requests</p><h3 id="metricTotalApps" class="text-2xl font-black text-white mt-1">0</h3></div>
+                    <span class="text-2xl bg-slate-800 p-3 rounded-xl border border-slate-700">📑</span>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Approved Modules</p><h3 id="metricApprovedApps" class="text-2xl font-black text-emerald-400 mt-1">0</h3></div>
+                    <span class="text-2xl bg-emerald-950/40 p-3 rounded-xl border border-emerald-900/30">✓</span>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 flex justify-between items-center">
+                    <div><p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Review Audits</p><h3 id="metricPendingApps" class="text-2xl font-black text-amber-400 mt-1">0</h3></div>
+                    <span class="text-2xl bg-amber-950/40 p-3 rounded-xl border border-amber-900/30">⏱️</span>
+                </div>
+            </section>
+
+            <!-- DATA ENTRY CONTROL INDEX MATRIX TABLE -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+                <div class="p-6 border-b border-slate-800"><h2 class="text-lg font-black text-white">Application Queue Logs</h2></div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-950 text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                                <th class="p-4">ID</th>
+                                <th class="p-4">Service</th>
+                                <th class="p-4">Applicant</th>
+                                <th class="p-4">CNIC Base</th>
+                                <th class="p-4">Metas & Documents</th>
+                                <th class="p-4 text-right">Update Workflow Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableContent" class="text-sm divide-y divide-slate-800/40 text-slate-300">
+                            <!-- Injected dynamically by admin scripts -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        async function attemptAdminLogin() {
+            const username = document.getElementById('adminUser').value;
+            const password = document.getElementById('adminPass').value;
+
+            const res = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (res.ok) {
+                document.getElementById('adminAuthLock').classList.add('hidden');
+                document.getElementById('adminDashboardView').classList.remove('hidden');
+                loadAllAdminSystemRecords();
+            } else {
+                document.getElementById('loginErrorMsg').classList.remove('hidden');
+            }
+        }
+
+        async function loadAllAdminSystemRecords() {
+            const res = await fetch('/api/admin/applications');
+            const data = await res.json();
+            const tbody = document.getElementById('adminTableContent');
+            tbody.innerHTML = '';
+            
+
+            // Map and calculate dynamic analytical counters
+            document.getElementById('metricTotalApps').innerText = data.length;
+            document.getElementById('metricApprovedApps').innerText = data.filter(a => a.status === 'Approved').length;
+            document.getElementById('metricPendingApps').innerText = data.filter(a => a.status === 'Pending Review').length;
+
+            data.forEach(app => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-950/40 transition">
+                        <td class="p-4 font-mono font-bold text-purple-400">#${app.id}</td>
+                        <td class="p-4 font-bold text-white">${app.service}</td>
+                        <td class="p-4">${app.applicant}</td>
+                        <td class="p-4 font-mono text-xs">${app.cnic}</td>
+                        <td class="p-4 text-xs max-w-xs text-slate-400">
+                            <div>${app.details}</div>
+                            <span class="text-[10px] text-purple-300 font-mono block mt-1">📁 Doc: ${app.docAttached}</span>
+                        </td>
+                        <td class="p-4 text-right">
+                            <div class="flex items-center justify-end space-x-2">
+                                <input type="text" id="remarks-${app.id}" placeholder="${app.remarks || 'Add response remarks...'}" class="bg-slate-950 border border-slate-800 text-xs p-2 rounded-xl text-white placeholder-slate-600 w-44 focus:outline-none focus:border-purple-500">
+                                <button onclick="updateStatus(${app.id}, 'Approved')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Approve</button>
+                                <button onclick="updateStatus(${app.id}, 'Rejected')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Reject</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function updateStatus(id, newStatus) {
+            const remarks = document.getElementById(`remarks-${id}`).value;
+            const res = await fetch('/api/admin/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status: newStatus, remarks })
+            });
+            if (res.ok) {
+                loadAllAdminSystemRecords();
+            }
+        }
+    </script>
+</body>
+</html>
