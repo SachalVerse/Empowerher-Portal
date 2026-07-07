@@ -16,12 +16,12 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # 2. Run Semgrep via official pre-built Docker container (no pip dependency hell)
+      # 2. Run Semgrep SAST via official Docker action
       - name: Semgrep Static Application Security Testing (SAST)
         uses: semgrep/semgrep-action@v1
         with:
-          config: p/security-audit --config=p/secrets
-          generateSarif: "1"
+          config: p/security-audit p/secrets
+          args: --sarif --output=semgrep.sarif
 
       # 3. Rename SARIF output if needed by downstream artifact step
       - name: Normalize SARIF output filename
