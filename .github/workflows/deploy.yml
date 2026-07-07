@@ -20,17 +20,17 @@ jobs:
           script: |
             cd /opt/empowerher
             
-            # 1. Clear any untracked or local modifications on the server completely
+            # 1. Fetch all updates from GitHub tracking refs first
+            git fetch --all
+            
+            # 2. Hard reset to the absolute latest commit tracked on the main branch
             git reset --hard origin/main
             
-            # 2. Pull down the clean, absolute latest changes
-            git pull origin main
+            # 3. Clean up untracked files or cache directories safely
+            git clean -fd
             
-            # 3. Stop running containers completely
+            # 4. Shut down running containers cleanly
             docker compose down
             
-            # 4. Build completely from scratch without using cached layers
-            docker compose build --no-cache app
-            
-            # 5. Boot the ecosystem engines up in background mode
-            docker compose up -d
+            # 5. Build and launch the new multi-container engine system 
+            docker compose up -d --build
