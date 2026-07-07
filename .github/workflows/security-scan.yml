@@ -1,0 +1,32 @@
+name: "DevSecOps Security Scan"
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  security-audit:
+    name: Run Security Vulnerability Scanners
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Semgrep Static Application Security Testing (SAST)
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+          auditOnFailure: true
+
+      - name: Audit Node.js Project Dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm audit --audit-level=high
+          else
+            echo "No package.json found, skipping npm dependency audit."
+          fi
