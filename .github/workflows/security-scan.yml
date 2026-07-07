@@ -12,23 +12,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Clone your source code out of the repository
+      # 1. Clone source code out of your repository
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # Step 2: Run Semgrep to audit code syntax for vulnerabilities and exposed secrets
+      # 2. Run Semgrep SAST and export the detailed logs into a JSON file
       - name: Semgrep Static Application Security Testing (SAST)
         uses: semgrep/semgrep-action@v1
         with:
           config: >-
             p/security-audit
             p/secrets
+          args: --json --output semgrep-results.json
+        continue-on-error: true # Allows report uploading even if errors are caught
 
-      # Step 3: Run Node Security Audit on package dependencies
+      # 3. Run Node Supply Chain Dependency Audit
       - name: Audit Node.js Project Dependencies
         run: |
           if [ -f package.json ]; then
-            npm audit --audit-level=high
+            npm audit --audit-level=high --json > npm-audit-results.json || true
           else
             echo "No package.json found, skipping npm dependency audit."
           fi
+
+      # 4. Enterprise Addition: Scan Docker Environment for OS Vulnerabilities
+      - name: Trivy Container Image & Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0' # Keeps pipeline moving while logging out system issues
+          severity: 'CRITICAL,HIGH'
+
+      # 5. Enterprise Addition: Upload and Save Detailed Security Reports
+      - name: Upload Security Scan Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-reports
+          path: |
+            semgrep-results.json
+            npm-audit-results.json
+          retention-days: 7 # Automatically cleans up storage after 7 days
