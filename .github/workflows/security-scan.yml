@@ -21,7 +21,7 @@ jobs:
         uses: semgrep/semgrep-action@v1
         with:
           config: p/security-audit p/secrets
-          args: --sarif --output=semgrep.sarif
+          args: scan --sarif --output=semgrep.sarif
 
       # 3. Rename SARIF output if needed by downstream artifact step
       - name: Normalize SARIF output filename
