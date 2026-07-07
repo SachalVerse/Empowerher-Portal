@@ -32,18 +32,23 @@ jobs:
             echo "No package.json found, skipping npm dependency audit."
           fi
 
-      # 4. Scan filesystem for OS and library vulnerabilities
-      - name: Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@v0.28.0
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'table'
-          exit-code: '0'
-          severity: 'CRITICAL,HIGH'
-          vuln-type: 'os,library'
+      # 4. Install Trivy CLI directly on the Ubuntu runner
+      - name: Install Trivy CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
 
-      # 5. Upload security reports for review
+      # 5. Run Trivy FS scan — prints table to logs, saves JSON for artifacts
+      - name: Run Trivy FS Scan
+        run: |
+          trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --format table .
+          trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --format json --output trivy-results.json .
+
+      # 6. Upload security reports for review
       - name: Upload Security Artifacts
         uses: actions/upload-artifact@v4
         if: always()
@@ -52,4 +57,5 @@ jobs:
           path: |
             semgrep.sarif
             npm-audit-results.json
+            trivy-results.json
           retention-days: 7
