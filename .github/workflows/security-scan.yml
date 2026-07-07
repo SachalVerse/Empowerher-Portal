@@ -12,17 +12,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Clone your source code out of the repository
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
+      # Step 2: Run Semgrep to audit code syntax for vulnerabilities and exposed secrets
       - name: Semgrep Static Application Security Testing (SAST)
         uses: semgrep/semgrep-action@v1
         with:
           config: >-
             p/security-audit
             p/secrets
-          auditOnFailure: true
 
+      # Step 3: Run Node Security Audit on package dependencies
       - name: Audit Node.js Project Dependencies
         run: |
           if [ -f package.json ]; then
