@@ -16,16 +16,11 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # 2. Run Semgrep SAST and let the action handle the JSON output natively
+      # 2. Install Semgrep and run SAST scan directly
       - name: Semgrep Static Application Security Testing (SAST)
-        uses: semgrep/semgrep-action@v1
-        with:
-          config: >-
-            p/security-audit
-            p/secrets
-          generateSarif: "1"
-        env:
-          SEMGREP_ARGS: "--json --output=semgrep-results.json"
+        run: |
+          pip install semgrep
+          semgrep scan --config=p/security-audit --config=p/secrets --sarif --output=semgrep.sarif
         continue-on-error: true
 
       # 3. Run Node Supply Chain Dependency Audit
@@ -37,22 +32,24 @@ jobs:
             echo "No package.json found, skipping npm dependency audit."
           fi
 
-      # 4. Enterprise Addition: Scan Docker Environment for OS Vulnerabilities
-      - name: Trivy Container Image & Filesystem Scan
-        uses: aquasecurity/trivy-action@master
+      # 4. Scan filesystem for OS and library vulnerabilities
+      - name: Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@v0.28.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
           format: 'table'
-          exit-code: '0' # Keeps pipeline moving while logging out system issues
+          exit-code: '0'
           severity: 'CRITICAL,HIGH'
+          vuln-type: 'os,library'
 
-      # 5. Enterprise Addition: Upload and Save Detailed Security Reports
-      - name: Upload Security Scan Artifacts
+      # 5. Upload security reports for review
+      - name: Upload Security Artifacts
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: security-audit-reports
+          name: security-scan-results
           path: |
-            semgrep-results.json
+            semgrep.sarif
             npm-audit-results.json
-          retention-days: 7 # Automatically cleans up storage after 7 days
+          retention-days: 7
