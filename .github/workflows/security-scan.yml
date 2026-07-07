@@ -16,14 +16,23 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # 2. Install Semgrep and run SAST scan directly
+      # 2. Run Semgrep via official pre-built Docker container (no pip dependency hell)
       - name: Semgrep Static Application Security Testing (SAST)
-        run: |
-          pip install semgrep
-          semgrep scan --config=p/security-audit --config=p/secrets --sarif --output=semgrep.sarif
-        continue-on-error: true
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: p/security-audit --config=p/secrets
+          generateSarif: "1"
 
-      # 3. Run Node Supply Chain Dependency Audit
+      # 3. Rename SARIF output if needed by downstream artifact step
+      - name: Normalize SARIF output filename
+        run: |
+          if [ -f "semgrep.sarif" ]; then
+            echo "SARIF file generated successfully."
+          elif [ -f "sast.sarif" ]; then
+            mv sast.sarif semgrep.sarif
+          fi
+
+      # 4. Run Node Supply Chain Dependency Audit
       - name: Audit Node.js Project Dependencies
         run: |
           if [ -f package.json ]; then
@@ -32,7 +41,7 @@ jobs:
             echo "No package.json found, skipping npm dependency audit."
           fi
 
-      # 4. Install Trivy CLI directly on the Ubuntu runner
+      # 5. Install Trivy CLI directly on the Ubuntu runner
       - name: Install Trivy CLI
         run: |
           sudo apt-get update
@@ -42,13 +51,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y trivy
 
-      # 5. Run Trivy FS scan — prints table to logs, saves JSON for artifacts
+      # 6. Run Trivy FS scan - prints table to logs, saves JSON for artifacts
       - name: Run Trivy FS Scan
         run: |
           trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --format table .
           trivy fs --scanners vuln,secret --severity HIGH,CRITICAL --format json --output trivy-results.json .
 
-      # 6. Upload security reports for review
+      # 7. Upload all security scan reports as artifacts
       - name: Upload Security Artifacts
         uses: actions/upload-artifact@v4
         if: always()
