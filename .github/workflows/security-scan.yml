@@ -16,15 +16,17 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      # 2. Run Semgrep SAST and export the detailed logs into a JSON file
+      # 2. Run Semgrep SAST and let the action handle the JSON output natively
       - name: Semgrep Static Application Security Testing (SAST)
         uses: semgrep/semgrep-action@v1
         with:
           config: >-
             p/security-audit
             p/secrets
-          args: --json --output semgrep-results.json
-        continue-on-error: true # Allows report uploading even if errors are caught
+          generateSarif: "1"
+        env:
+          SEMGREP_ARGS: "--json --output=semgrep-results.json"
+        continue-on-error: true
 
       # 3. Run Node Supply Chain Dependency Audit
       - name: Audit Node.js Project Dependencies
