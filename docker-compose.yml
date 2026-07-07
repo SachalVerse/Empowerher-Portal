@@ -1,30 +1,38 @@
-version: '3.8'
-
-services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    env_file: .env
-    depends_on:
-      db:
-        condition: service_healthy
-    restart: unless-stopped
-
-  db:
-    image: postgres:15-alpine
+node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: ${DB_NAME:-empowerher}
-      POSTGRES_USER: ${DB_USER:-empowerher}
-      POSTGRES_PASSWORD: ${DB_PASS:-changeme}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-empowerher}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     restart: unless-stopped
+    networks:
+      - app-network
 
-volumes:
-  pgdata:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3001:3000" # Exposing Grafana on port 3001 externally
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=yourSecureGrafanaPass123!
+    restart: unless-stopped
+    networks:
+      - app-network
