@@ -1,4 +1,13 @@
-node-exporter:
+services:
+  app:
+    image: empowerher-app
+    # ... your existing app config ...
+
+  db:
+    image: postgres:15-alpine
+    # ... your existing db config ...
+
+  node-exporter:
     image: prom/node-exporter:latest
     container_name: node-exporter
     volumes:
@@ -30,9 +39,13 @@ node-exporter:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "3001:3000" # Exposing Grafana on port 3001 externally
+      - "3001:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=yourSecureGrafanaPass123!
     restart: unless-stopped
     networks:
       - app-network
+
+networks:
+  app-network:
+    driver: bridge
